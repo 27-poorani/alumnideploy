@@ -10,17 +10,28 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// CORS configuration for production
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://alumni-frontend.onrender.com'] // Replace with your actual frontend URL
+    : ['http://localhost:3000'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/alumni', {
+// MongoDB connection with your provided connection string
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://sriannapoorani05:sap@cluster0.4oaleij.mongodb.net/alumni?retryWrites=true&w=majority&appName=Cluster0';
+
+mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-  .then(() => console.log('MongoDB connected'))
+  .then(() => console.log('MongoDB connected successfully'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
 const authRoutes = require('./routes/auth');
@@ -39,9 +50,15 @@ app.use('/api/admin/placement-highlights', placementHighlightsRoutes);
 
 // Root route
 app.get('/', (req, res) => {
-  res.send('Alumni Backend API');
+  res.json({ message: 'Alumni Backend API is running' });
+});
+
+// Health check endpoint for Render
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 }); 

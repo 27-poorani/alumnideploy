@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, Card, CardContent, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Grid, Avatar, Snackbar, Alert, CircularProgress } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import InfoIcon from '@mui/icons-material/Info';
+import { API_ENDPOINTS } from '../config/api';
 
 function Dashboard() {
   const [profile, setProfile] = useState(null);
@@ -30,7 +31,7 @@ function Dashboard() {
     setError('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/alumni/dashboard', {
+      const res = await fetch(API_ENDPOINTS.ALUMNI_DASHBOARD, {
         headers: { 'x-auth-token': token },
       });
       const data = await res.json();
@@ -50,7 +51,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/alumni/events');
+        const res = await fetch(API_ENDPOINTS.ALUMNI_EVENTS);
         const data = await res.json();
         if (Array.isArray(data)) setEvents(data);
       } catch {}

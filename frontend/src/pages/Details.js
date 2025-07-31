@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Card, CardContent, Grid, Avatar, Alert } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
+import { API_ENDPOINTS } from '../config/api';
 
 function Details() {
   const [profile, setProfile] = useState(null);
@@ -13,7 +14,7 @@ function Details() {
       setError('');
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:5000/api/alumni/dashboard', {
+        const res = await fetch(API_ENDPOINTS.ALUMNI_DASHBOARD, {
           headers: { 'x-auth-token': token },
         });
         const data = await res.json();
