@@ -14,6 +14,25 @@ function adminOnly(req, res, next) {
   next();
 }
 
+// Get admin dashboard data
+router.get('/dashboard', auth, adminOnly, async (req, res) => {
+  try {
+    const alumniCount = await User.countDocuments({ role: 'alumni' });
+    const postsCount = await Post.countDocuments();
+    const pendingPostsCount = await Post.countDocuments({ approved: false });
+    const eventsCount = await Event.countDocuments();
+    
+    res.json({
+      alumniCount,
+      postsCount,
+      pendingPostsCount,
+      eventsCount
+    });
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error' });
+  }
+});
+
 // Get all alumni
 router.get('/alumni', auth, adminOnly, async (req, res) => {
   try {

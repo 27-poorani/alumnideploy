@@ -4,6 +4,8 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import BusinessIcon from '@mui/icons-material/Business';
 import SchoolIcon from '@mui/icons-material/School';
 import { format } from 'date-fns';
+import { API_ENDPOINTS } from '../config/api';
+import API_BASE_URL from '../config/api';
 
 function AdminDashboard() {
   const [alumni, setAlumni] = useState([]);
@@ -57,7 +59,7 @@ function AdminDashboard() {
         setError('Access denied: Admins only');
         return;
       }
-      const res = await fetch('http://localhost:5000/api/admin/alumni', {
+      const res = await fetch(API_ENDPOINTS.ADMIN_ALUMNI, {
         headers: { 'x-auth-token': token },
       });
       const data = await res.json();
@@ -74,7 +76,7 @@ function AdminDashboard() {
     setErrorTop('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/admin/top-students', {
+      const res = await fetch(API_ENDPOINTS.ADMIN_TOP_STUDENTS, {
         headers: { 'x-auth-token': token },
       });
       const data = await res.json();
@@ -91,7 +93,7 @@ function AdminDashboard() {
     setErrorHighlights('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/admin/placement-highlights', {
+      const res = await fetch(API_ENDPOINTS.ADMIN_PLACEMENT_HIGHLIGHTS, {
         headers: { 'x-auth-token': token },
       });
       const data = await res.json();
@@ -108,7 +110,7 @@ function AdminDashboard() {
     setErrorPosts('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/admin/posts', {
+      const res = await fetch(API_ENDPOINTS.ADMIN_POSTS, {
         headers: { 'x-auth-token': token },
       });
       const data = await res.json();
@@ -123,7 +125,7 @@ function AdminDashboard() {
   const handleApprovePost = async (id, approved) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/admin/posts/${id}/approve`, {
+      const res = await fetch(`${API_ENDPOINTS.ADMIN_POSTS}/${id}/approve`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
         body: JSON.stringify({ approved }),
@@ -139,7 +141,7 @@ function AdminDashboard() {
   const handleRemoveAttachment = async (post) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/admin/posts/${post._id}`, {
+      const res = await fetch(`${API_ENDPOINTS.ADMIN_POSTS}/${post._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
         body: JSON.stringify({ attachment: null }),
@@ -157,7 +159,7 @@ function AdminDashboard() {
     setErrorPosts('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/admin/posts/${id}`, {
+      const res = await fetch(`${API_ENDPOINTS.ADMIN_POSTS}/${id}`, {
         method: 'DELETE',
         headers: { 'x-auth-token': token },
       });
@@ -174,7 +176,7 @@ function AdminDashboard() {
     setErrorEvents('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/admin/events', {
+      const res = await fetch(API_ENDPOINTS.ADMIN_EVENTS, {
         headers: { 'x-auth-token': token },
       });
       const data = await res.json();
@@ -209,7 +211,7 @@ function AdminDashboard() {
     try {
       const token = localStorage.getItem('token');
       const method = editEventId ? 'PUT' : 'POST';
-      const url = editEventId ? `http://localhost:5000/api/admin/events/${editEventId}` : 'http://localhost:5000/api/admin/events';
+      const url = editEventId ? `${API_ENDPOINTS.ADMIN_EVENTS}/${editEventId}` : API_ENDPOINTS.ADMIN_EVENTS;
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
@@ -227,7 +229,7 @@ function AdminDashboard() {
     if (!window.confirm('Are you sure you want to delete this event?')) return;
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/admin/events/${id}`, {
+      const res = await fetch(`${API_ENDPOINTS.ADMIN_EVENTS}/${id}`, {
         method: 'DELETE',
         headers: { 'x-auth-token': token },
       });
@@ -256,7 +258,7 @@ function AdminDashboard() {
   const handleDeleteStudent = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/admin/top-students/${id}`, {
+      const res = await fetch(`${API_ENDPOINTS.ADMIN_TOP_STUDENTS}/${id}`, {
         method: 'DELETE',
         headers: { 'x-auth-token': token },
       });
@@ -280,7 +282,7 @@ function AdminDashboard() {
     try {
       const token = localStorage.getItem('token');
       if (addMode) {
-        const res = await fetch('http://localhost:5000/api/admin/top-students', {
+        const res = await fetch(API_ENDPOINTS.ADMIN_TOP_STUDENTS, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
           body: JSON.stringify(studentForm),
@@ -288,7 +290,7 @@ function AdminDashboard() {
         if (!res.ok) throw new Error('Failed to add student');
         setSuccess('Student added!');
       } else {
-        const res = await fetch(`http://localhost:5000/api/admin/top-students/${editStudent._id}`, {
+        const res = await fetch(`${API_ENDPOINTS.ADMIN_TOP_STUDENTS}/${editStudent._id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
           body: JSON.stringify(studentForm),
@@ -313,7 +315,7 @@ function AdminDashboard() {
     setErrorHighlights('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/admin/placement-highlights', {
+      const res = await fetch(API_ENDPOINTS.ADMIN_PLACEMENT_HIGHLIGHTS, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
         body: JSON.stringify(highlights),
@@ -334,7 +336,7 @@ function AdminDashboard() {
   const handleDeleteConfirm = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/admin/alumni/${deleteId}`, {
+      const res = await fetch(`${API_ENDPOINTS.ADMIN_ALUMNI}/${deleteId}`, {
         method: 'DELETE',
         headers: { 'x-auth-token': token },
       });
@@ -357,14 +359,14 @@ function AdminDashboard() {
       const token = localStorage.getItem('token');
       const formData = new FormData();
       formData.append('photo', file);
-      const res = await fetch('http://localhost:5000/api/admin/top-students/upload-photo', {
+      const res = await fetch(API_ENDPOINTS.ADMIN_TOP_STUDENTS_UPLOAD, {
         method: 'POST',
         headers: { 'x-auth-token': token },
         body: formData,
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.msg || 'Failed to upload photo');
-      setStudentForm((prev) => ({ ...prev, photo: `http://localhost:5000${data.url}` }));
+      setStudentForm((prev) => ({ ...prev, photo: `${API_BASE_URL}${data.url}` }));
     } catch (err) {
       setErrorTop(err.message);
     }

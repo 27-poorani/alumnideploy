@@ -104,14 +104,14 @@ function Dashboard() {
       const token = localStorage.getItem('token');
       const formData = new FormData();
       formData.append('photo', file);
-      const res = await fetch('http://localhost:5000/api/alumni/upload-photo', {
+      const res = await fetch(API_ENDPOINTS.UPLOAD_PHOTO, {
         method: 'POST',
         headers: { 'x-auth-token': token },
         body: formData,
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.msg || 'Failed to upload photo');
-      setForm((prev) => ({ ...prev, photo: `http://localhost:5000${data.url}` }));
+              setForm((prev) => ({ ...prev, photo: `${API_BASE_URL}${data.url}` }));
     } catch (err) {
       setError(err.message);
     }
@@ -124,7 +124,7 @@ function Dashboard() {
     setSuccess('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/alumni/details', {
+      const res = await fetch(API_ENDPOINTS.ALUMNI_DETAILS, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
         body: JSON.stringify(form),
@@ -147,14 +147,14 @@ function Dashboard() {
       const token = localStorage.getItem('token');
       const formData = new FormData();
       formData.append('attachment', file);
-      const res = await fetch('http://localhost:5000/api/alumni/post/upload-attachment', {
+      const res = await fetch(API_ENDPOINTS.ALUMNI_POST_ATTACHMENT, {
         method: 'POST',
         headers: { 'x-auth-token': token },
         body: formData,
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.msg || 'Failed to upload attachment');
-      setPostAttachment(`http://localhost:5000${data.url}`);
+      setPostAttachment(`${API_BASE_URL}${data.url}`);
     } catch (err) {
       setError(err.message);
     }
@@ -168,7 +168,7 @@ function Dashboard() {
     setError('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/alumni/post', {
+      const res = await fetch(API_ENDPOINTS.ALUMNI_POST, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
         body: JSON.stringify({ content: postContent, attachment: postAttachment }),
@@ -192,14 +192,14 @@ function Dashboard() {
       const token = localStorage.getItem('token');
       const formData = new FormData();
       formData.append('attachment', file);
-      const res = await fetch('http://localhost:5000/api/alumni/post/upload-attachment', {
+      const res = await fetch(API_ENDPOINTS.ALUMNI_POST_ATTACHMENT, {
         method: 'POST',
         headers: { 'x-auth-token': token },
         body: formData,
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.msg || 'Failed to upload attachment');
-      setEditAttachment(`http://localhost:5000${data.url}`);
+      setEditAttachment(`${API_BASE_URL}${data.url}`);
     } catch (err) {
       setError(err.message);
     }
@@ -219,7 +219,7 @@ function Dashboard() {
     setError('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/alumni/post/${editPost._id}`, {
+      const res = await fetch(`${API_ENDPOINTS.ALUMNI_POST}/${editPost._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
         body: JSON.stringify({ content: editContent, attachment: editAttachment }),
@@ -239,7 +239,7 @@ function Dashboard() {
     setError('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/alumni/post/${id}`, {
+      const res = await fetch(`${API_ENDPOINTS.ALUMNI_POST}/${id}`, {
         method: 'DELETE',
         headers: { 'x-auth-token': token },
       });

@@ -4,6 +4,7 @@ import BusinessIcon from '@mui/icons-material/Business';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import SchoolIcon from '@mui/icons-material/School';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
+import { API_ENDPOINTS } from '../config/api';
 
 const recruiters = [
   
@@ -50,7 +51,7 @@ function Home() {
       setLoading(true);
       setError('');
       try {
-        const res = await fetch('http://localhost:5000/api/top-students');
+        const res = await fetch(API_ENDPOINTS.TOP_STUDENTS);
         const data = await res.json();
         if (!res.ok) throw new Error(data.msg || 'Failed to fetch top students');
         setTopStudents(data);
@@ -67,7 +68,7 @@ function Home() {
       setLoadingHighlights(true);
       setErrorHighlights('');
       try {
-        const res = await fetch('http://localhost:5000/api/placement-highlights');
+        const res = await fetch(API_ENDPOINTS.PLACEMENT_HIGHLIGHTS);
         const data = await res.json();
         if (!res.ok) throw new Error(data.msg || 'Failed to fetch highlights');
         setHighlights(data);
@@ -84,7 +85,7 @@ function Home() {
       setLoadingPosts(true);
       setErrorPosts('');
       try {
-        const res = await fetch('http://localhost:5000/api/alumni/posts');
+        const res = await fetch(API_ENDPOINTS.ALUMNI_POSTS);
         const data = await res.json();
         if (!res.ok) throw new Error(data.msg || 'Failed to fetch posts');
         setAlumniPosts(data);
