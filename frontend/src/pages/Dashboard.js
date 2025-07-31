@@ -3,6 +3,7 @@ import { Box, Typography, Card, CardContent, Button, Dialog, DialogTitle, Dialog
 import PersonIcon from '@mui/icons-material/Person';
 import InfoIcon from '@mui/icons-material/Info';
 import { API_ENDPOINTS } from '../config/api';
+import API_BASE_URL from '../config/api';
 
 function Dashboard() {
   const [profile, setProfile] = useState(null);
