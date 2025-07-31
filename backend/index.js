@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 // CORS configuration for production
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://alumni-frontend-xsvh.onrender.com'] // Replace with your actual frontend URL
+    ? ['https://alumni-frontend-wg4d.onrender.com'] // Updated frontend URL
     : ['http://localhost:3000'],
   credentials: true,
   optionsSuccessStatus: 200
@@ -61,4 +61,4 @@ app.get('/health', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-}); 
+});
