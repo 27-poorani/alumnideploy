@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 // CORS configuration for production
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://alumni-frontend-wg4d.onrender.com'] // Updated frontend URL
+    ? ['https://alumni-frontend-y63v.onrender.com'] // Updated frontend URL
     : ['http://localhost:3000'],
   credentials: true,
   optionsSuccessStatus: 200
