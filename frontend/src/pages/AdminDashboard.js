@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import API_BASE_URL, { API_ENDPOINTS } from '../config/api';
 import { 
   Box, Typography, Card, CardContent, Table, TableBody, TableCell, 
   TableContainer, TableHead, TableRow, Paper, Button, Alert, Dialog, 
@@ -36,7 +37,6 @@ import {
   Timeline as TimelineIcon
 } from '@mui/icons-material';
 import { format } from 'date-fns';
-import { API_ENDPOINTS } from '../config/api';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 // Sidebar navigation items
