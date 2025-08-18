@@ -5,7 +5,6 @@ import {
   ListItemIcon, ListItemText, Divider, CssBaseline, AppBar, Toolbar, 
   IconButton, useTheme, useMediaQuery, Container
 } from '@mui/material';
-import { API_ENDPOINTS } from '../config/api';
 import {
   Menu as MenuIcon,
   Dashboard as DashboardIcon,
