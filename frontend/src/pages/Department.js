@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Typography, Button, Card, CardContent, Grid, Avatar, Chip, CircularProgress, Alert, Fade, Grow, Paper } from '@mui/material';
+import { API_ENDPOINTS } from '../config/api';
 
 const BATCH_RANGES = [
   { label: '2021-2025', value: '2021' },
@@ -35,7 +36,7 @@ function Department() {
     setErrorAlumni('');
     setTopAlumni([]);
     try {
-      const res = await fetch(`http://localhost:5000/api/top-students/by-department-batch?department=${dept}&batch=${batch}`);
+      const res = await fetch(`${API_ENDPOINTS.TOP_STUDENTS_BY_DEPARTMENT_BATCH}?department=${dept}&batch=${batch}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.msg || 'Failed to fetch top alumni');
       setTopAlumni(data);

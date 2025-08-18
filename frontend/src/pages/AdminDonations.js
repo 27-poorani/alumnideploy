@@ -53,6 +53,7 @@ import {
 } from '@mui/icons-material';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../config/api';
 
 // Sidebar navigation items
 const drawerItems = [
@@ -95,7 +96,7 @@ function AdminDonations() {
   const fetchTotalDonated = async () => {
     try {
       setLoadingStats(true);
-      const response = await fetch('http://localhost:5000/api/donations/stats/total');
+      const response = await fetch(`${API_ENDPOINTS.DONATIONS}/stats/total`);
       
       if (response.ok) {
         const data = await response.json();
@@ -127,7 +128,7 @@ function AdminDonations() {
         return;
       }
       
-      const response = await fetch('http://localhost:5000/api/donations', {
+      const response = await fetch(`${API_ENDPOINTS.DONATIONS}`, {
         method: 'GET',
         headers: {
           'x-auth-token': token,
@@ -187,7 +188,7 @@ function AdminDonations() {
         return;
       }
       
-      const response = await fetch(`http://localhost:5000/api/donations/${selectedDonation._id}`, {
+      const response = await fetch(`${API_ENDPOINTS.DONATIONS}/${selectedDonation._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

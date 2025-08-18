@@ -19,6 +19,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SideNav from '../components/SideNav';
+import { API_ENDPOINTS } from '../config/api';
 
 function Donation() {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ function Donation() {
   const fetchTotalDonated = async () => {
     try {
       setLoadingStats(true);
-      const response = await fetch('http://localhost:5000/api/donations/stats/total');
+      const response = await fetch(`${API_ENDPOINTS.DONATIONS}/stats/total`);
       
       if (response.ok) {
         const data = await response.json();
@@ -146,7 +147,7 @@ function Donation() {
       
       console.log('Submitting donation data:', donationData);
       
-      const response = await fetch('http://localhost:5000/api/donations', {
+      const response = await fetch(API_ENDPOINTS.DONATIONS, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

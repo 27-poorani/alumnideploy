@@ -48,7 +48,7 @@ function Mentorship() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('http://localhost:5000/api/mentorship', {
+      const res = await fetch(API_ENDPOINTS.MENTORSHIPS, {
         cache: 'no-store' // Add cache-busting parameter
       });
       const data = await res.json();
@@ -64,7 +64,7 @@ function Mentorship() {
   const fetchMyMentorships = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/mentorship/user/mentor', {
+      const res = await fetch(API_ENDPOINTS.MENTORSHIPS_USER_MENTOR, {
         headers: { 'x-auth-token': token },
         cache: 'no-store' // Add cache-busting parameter
       });
@@ -80,7 +80,7 @@ function Mentorship() {
   const fetchMyMenteeships = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/mentorship/user/mentee', {
+      const res = await fetch(API_ENDPOINTS.MENTORSHIPS_USER_MENTEE, {
         headers: { 'x-auth-token': token },
         cache: 'no-store' // Add cache-busting parameter
       });
@@ -127,7 +127,7 @@ function Mentorship() {
       try {
         const token = localStorage.getItem('token');
         // Use the authenticated route to get full mentorship details including admin messages
-        const res = await fetch(`http://localhost:5000/api/mentorship/auth/${mentorship._id}`, {
+        const res = await fetch(`${API_ENDPOINTS.MENTORSHIPS}/auth/${mentorship._id}`, {
           headers: { 'x-auth-token': token },
           // Add cache-busting parameter to prevent caching
           cache: 'no-store'
@@ -166,7 +166,7 @@ function Mentorship() {
     setSuccess('');
     try {
       const token = localStorage.getItem('token');
-      const url = isEditing ? `http://localhost:5000/api/mentorship/${currentMentorshipId}` : 'http://localhost:5000/api/mentorship';
+      const url = isEditing ? `${API_ENDPOINTS.MENTORSHIPS}/${currentMentorshipId}` : API_ENDPOINTS.MENTORSHIPS;
       const method = isEditing ? 'PUT' : 'POST';
 
       const res = await fetch(url, {
@@ -192,7 +192,7 @@ function Mentorship() {
     
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/mentorship/${id}`, {
+      const res = await fetch(`${API_ENDPOINTS.MENTORSHIPS}/${id}`, {
         method: 'DELETE',
         headers: { 'x-auth-token': token },
       });
@@ -217,7 +217,7 @@ function Mentorship() {
     setRequestLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/mentorship/${mentorshipId}/request`, {
+      const res = await fetch(`${API_ENDPOINTS.MENTORSHIPS}/${mentorshipId}/request`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
       });
@@ -238,7 +238,7 @@ function Mentorship() {
   const handleMenteeRequest = async (mentorshipId, menteeId, status) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/mentorship/${mentorshipId}/request/${menteeId}`, {
+      const res = await fetch(`${API_ENDPOINTS.MENTORSHIPS}/${mentorshipId}/request/${menteeId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
         body: JSON.stringify({ status }),
@@ -736,7 +736,7 @@ function Mentorship() {
                         // Refresh the current mentorship details
                         if (currentMentorship?._id) {
                           const token = localStorage.getItem('token');
-                          fetch(`http://localhost:5000/api/mentorship/auth/${currentMentorship._id}`, {
+                          fetch(`${API_ENDPOINTS.MENTORSHIPS}/auth/${currentMentorship._id}`, {
                             headers: { 'x-auth-token': token },
                             // Add cache-busting parameter to prevent caching
                             cache: 'no-store'

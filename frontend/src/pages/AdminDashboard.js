@@ -37,7 +37,6 @@ import {
 } from '@mui/icons-material';
 import { format } from 'date-fns';
 import { API_ENDPOINTS } from '../config/api';
-import API_BASE_URL from '../config/api';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 // Sidebar navigation items
@@ -306,7 +305,7 @@ function AdminDashboard() {
   const handleMentorshipApproval = async (mentorshipId, approved, featured = false) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/mentorship/${mentorshipId}/approve`, {
+      const res = await fetch(`${API_ENDPOINTS.MENTORSHIPS}/${mentorshipId}/approve`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
         body: JSON.stringify({ approved, featured }),
@@ -616,7 +615,7 @@ function AdminDashboard() {
     setSendingMessage(prev => ({ ...prev, [mentorshipId]: true }));
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/mentorship/${mentorshipId}/admin-message`, {
+      const res = await fetch(`${API_ENDPOINTS.MENTORSHIPS}/${mentorshipId}/admin-message`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
         body: JSON.stringify({

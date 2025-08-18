@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, Chip, Button, Alert, CircularProgress } from '@mui/material';
 import { format } from 'date-fns';
+import { API_ENDPOINTS } from '../config/api';
 
 function MentorshipAdminMessage({ mentorship, onDateSelected, refreshMentorships }) {
   const [selectedDate, setSelectedDate] = useState('');
@@ -29,7 +30,7 @@ function MentorshipAdminMessage({ mentorship, onDateSelected, refreshMentorships
     
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/mentorship/${mentorship._id}/select-date`, {
+      const res = await fetch(`${API_ENDPOINTS.MENTORSHIPS}/${mentorship._id}/select-date`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
         body: JSON.stringify({ selectedDate })

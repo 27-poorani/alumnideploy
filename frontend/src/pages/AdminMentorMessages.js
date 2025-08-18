@@ -5,6 +5,7 @@ import {
   ListItemIcon, ListItemText, Divider, CssBaseline, AppBar, Toolbar, 
   IconButton, useTheme, useMediaQuery, Container
 } from '@mui/material';
+import { API_ENDPOINTS } from '../config/api';
 import {
   Menu as MenuIcon,
   Dashboard as DashboardIcon,
@@ -20,6 +21,7 @@ import {
   Message as MessageIcon
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../config/api';
 
 // Sidebar navigation items
 const drawerItems = [
@@ -62,7 +64,7 @@ function AdminMentorMessages() {
     setError('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/mentorship/admin/pending', {
+      const res = await fetch(`${API_ENDPOINTS.MENTORSHIPS}/admin/pending`, {
         headers: { 'x-auth-token': token },
       });
       const data = await res.json();
@@ -81,7 +83,7 @@ function AdminMentorMessages() {
       const token = localStorage.getItem('token');
       console.log('Fetching mentorships with selected dates');
       
-      const res = await fetch('http://localhost:5000/api/mentorship/admin/with-selected-dates', {
+      const res = await fetch(`${API_ENDPOINTS.MENTORSHIPS}/admin/with-selected-dates`, {
         headers: { 'x-auth-token': token },
         cache: 'no-store'
       });
@@ -107,7 +109,7 @@ function AdminMentorMessages() {
     setError('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/mentorship/${mentorshipId}/approve`, {
+      const res = await fetch(`${API_ENDPOINTS.MENTORSHIPS}/${mentorshipId}/approve`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
         body: JSON.stringify({ approved, featured })
@@ -141,7 +143,7 @@ function AdminMentorMessages() {
     setSendingMessage(prev => ({ ...prev, [mentorshipId]: true }));
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/mentorship/${mentorshipId}/admin-message`, {
+      const res = await fetch(`${API_ENDPOINTS.MENTORSHIPS}/${mentorshipId}/admin-message`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
         body: JSON.stringify({
@@ -167,7 +169,7 @@ function AdminMentorMessages() {
       const token = localStorage.getItem('token');
       console.log('Sending final thank you for mentorship:', mentorshipId);
       
-      const res = await fetch(`http://localhost:5000/api/mentorship/${mentorshipId}/final-thank`, {
+      const res = await fetch(`${API_ENDPOINTS.MENTORSHIPS}/${mentorshipId}/final-thank`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
         body: JSON.stringify({}),
