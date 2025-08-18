@@ -6,9 +6,15 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import Details from './pages/Details';
+import Mentorship from './pages/Mentorship';
+import NetworkingEvents from './pages/NetworkingEvents';
+import Department from './pages/Department';
 import Navigation from './components/Navigation';
 import ProtectedRoute from './components/ProtectedRoute';
 import { Box } from '@mui/material';
+import AdminMentorMessages from './pages/AdminMentorMessages';
+import Donation from './pages/Donation';
+import AdminDonations from './pages/AdminDonations';
 
 function App() {
   return (
@@ -40,6 +46,47 @@ function App() {
             element={
               <ProtectedRoute requiredRole="alumni">
                 <Details />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/mentorship" 
+            element={
+              <ProtectedRoute>
+                <Mentorship />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/networking-events" 
+            element={
+              <ProtectedRoute>
+                <NetworkingEvents />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin-mentor-messages" 
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminMentorMessages />
+              </ProtectedRoute>
+            } 
+          />
+          <Route path="/department/:dept" element={<Department />} />
+          <Route 
+            path="/donation" 
+            element={
+              <ProtectedRoute requiredRole="alumni">
+                <Donation />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin-donations" 
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminDonations />
               </ProtectedRoute>
             } 
           />

@@ -76,7 +76,7 @@ router.post('/upload-photo', auth, upload.single('photo'), (req, res) => {
 // Update alumni details
 router.put('/details', auth, async (req, res) => {
   try {
-    const fields = ['batch', 'company', 'salary', 'designation', 'location', 'phone', 'linkedin', 'photo'];
+    const fields = ['batch', 'company', 'designation', 'location', 'phone', 'linkedin', 'photo'];
     const updates = {};
     fields.forEach(field => {
       if (req.body[field] !== undefined) updates[field] = req.body[field];
@@ -137,4 +137,4 @@ router.get('/events', async (req, res) => {
   }
 });
 
-module.exports = router; 
+module.exports = router;

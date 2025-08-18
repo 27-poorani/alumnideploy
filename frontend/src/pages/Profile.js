@@ -10,7 +10,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import { API_ENDPOINTS } from '../config/api';
 import SideNav from '../components/SideNav';
 
-function Details() {
+function Profile() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -25,7 +25,7 @@ function Details() {
           headers: { 'x-auth-token': token },
         });
         const data = await res.json();
-        if (!res.ok) throw new Error(data.msg || 'Failed to fetch details');
+        if (!res.ok) throw new Error(data.msg || 'Failed to fetch profile');
         setProfile(data.user);
       } catch (err) {
         setError(err.message);
@@ -227,4 +227,4 @@ function Details() {
   );
 }
 
-export default Details;
+export default Profile;

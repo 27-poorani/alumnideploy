@@ -5,6 +5,7 @@ const TopStudentSchema = new mongoose.Schema({
   company: { type: String, required: true },
   package: { type: String, required: true },
   batch: { type: String, required: true },
+  department: { type: String, required: true },
   photo: { type: String },
 });
 

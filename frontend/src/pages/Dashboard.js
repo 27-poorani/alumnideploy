@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Card, CardContent, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Grid, Avatar, Snackbar, Alert, CircularProgress } from '@mui/material';
+import { Box, Typography, Card, CardContent, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Grid, Avatar, Snackbar, Alert, CircularProgress, Divider, Paper, IconButton, Tooltip } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import InfoIcon from '@mui/icons-material/Info';
+import EditIcon from '@mui/icons-material/Edit';
+import WorkIcon from '@mui/icons-material/Work';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import PhoneIcon from '@mui/icons-material/Phone';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import SchoolIcon from '@mui/icons-material/School';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { API_ENDPOINTS } from '../config/api';
 import API_BASE_URL from '../config/api';
-
+import SideNav from '../components/SideNav';
+ 
 function Dashboard() {
   const [profile, setProfile] = useState(null);
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ batch: '', company: '', salary: '', designation: '', location: '', phone: '', linkedin: '' });
+  const [form, setForm] = useState({ batch: '', company: '', designation: '', location: '', phone: '', linkedin: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -253,20 +262,7 @@ function Dashboard() {
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        width: '100vw',
-        background: 'linear-gradient(120deg, #e0e7ff 0%, #f8fafc 100%)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
-        overflowX: 'hidden',
-        py: 6,
-      }}
-    >
+    <SideNav title="Alumni Dashboard">
       {/* Modern Event Notification Banner */}
       {showEventBanner && events.length > 0 && (
         <Box
@@ -307,7 +303,7 @@ function Dashboard() {
       {/* Glassmorphism Card */}
       <Card
         sx={{
-          maxWidth: 600,
+          maxWidth: 900,
           width: '100%',
           borderRadius: 7,
           boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.18)',
@@ -316,6 +312,19 @@ function Dashboard() {
           backdropFilter: 'blur(8px)',
           border: '1.5px solid rgba(255,255,255,0.25)',
           mt: 12,
+          mx: 'auto',
+          mb: 6,
+          position: 'relative',
+          overflow: 'hidden',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '8px',
+            background: 'linear-gradient(90deg, #1976d2, #42a5f5)',
+          }
         }}
       >
         <CardContent>
@@ -337,81 +346,303 @@ function Dashboard() {
                 <Typography variant="h5" sx={{ fontWeight: 700, letterSpacing: 1 }}>{profile.name?.toUpperCase()}</Typography>
                 <Typography variant="body1" color="text.secondary">{profile.email}</Typography>
               </Box>
-              <Box sx={{ background: 'rgba(245,250,255,0.85)', borderRadius: 4, boxShadow: 0, p: 2.5, mb: 3 }}>
-                <Typography variant="subtitle1" fontWeight={700} color="primary" gutterBottom sx={{ mb: 2 }}>
-                  Profile Details
-                </Typography>
-                <Grid container spacing={2} alignItems="center">
-                  <Grid item xs={12} sm={6}><b>Batch:</b> <span style={{ fontWeight: 400 }}>{profile.batch || '-'}</span></Grid>
-                  <Grid item xs={12} sm={6}><b>Company:</b> <span style={{ fontWeight: 400 }}>{profile.company || '-'}</span></Grid>
-                  <Grid item xs={12} sm={6}><b>Salary:</b> <span style={{ fontWeight: 400 }}>{profile.salary || '-'}</span></Grid>
-                  <Grid item xs={12} sm={6}><b>Designation:</b> <span style={{ fontWeight: 400 }}>{profile.designation || '-'}</span></Grid>
-                  <Grid item xs={12} sm={6}><b>Location:</b> <span style={{ fontWeight: 400 }}>{profile.location || '-'}</span></Grid>
-                  <Grid item xs={12} sm={6}><b>Phone:</b> <span style={{ fontWeight: 400 }}>{profile.phone || '-'}</span></Grid>
-                  <Grid item xs={12}><b>LinkedIn:</b> {profile.linkedin ? <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: '#1976d2', wordBreak: 'break-all', fontWeight: 500 }}>{profile.linkedin}</a> : '-'}</Grid>
+              <Paper elevation={3} sx={{ borderRadius: 4, p: 3, mb: 4, background: 'rgba(255,255,255,0.95)' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Typography variant="h6" fontWeight={700} color="primary">
+                    Profile Details
+                  </Typography>
+                  <Tooltip title="Edit Profile">
+                    <IconButton color="primary" onClick={handleOpen} sx={{ background: 'rgba(25, 118, 210, 0.08)', '&:hover': { background: 'rgba(25, 118, 210, 0.15)' } }}>
+                      <EditIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+                <Divider sx={{ mb: 3 }} />
+                
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                      <SchoolIcon color="primary" />
+                      <Box>
+                        <Typography variant="body2" color="text.secondary">Batch</Typography>
+                        <Typography variant="body1" fontWeight={500}>{profile.batch || 'Not specified'}</Typography>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  
+                  <Grid item xs={12} sm={6}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                      <WorkIcon color="primary" />
+                      <Box>
+                        <Typography variant="body2" color="text.secondary">Company</Typography>
+                        <Typography variant="body1" fontWeight={500}>{profile.company || 'Not specified'}</Typography>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  
+
+                  
+                  <Grid item xs={12} sm={6}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                      <Box component="span" sx={{ color: 'primary.main', display: 'flex', alignItems: 'center', justifyContent: 'center', width: 24, height: 24 }}>🏆</Box>
+                      <Box>
+                        <Typography variant="body2" color="text.secondary">Designation</Typography>
+                        <Typography variant="body1" fontWeight={500}>{profile.designation || 'Not specified'}</Typography>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  
+                  <Grid item xs={12} sm={6}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                      <LocationOnIcon color="primary" />
+                      <Box>
+                        <Typography variant="body2" color="text.secondary">Location</Typography>
+                        <Typography variant="body1" fontWeight={500}>{profile.location || 'Not specified'}</Typography>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  
+                  <Grid item xs={12} sm={6}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                      <PhoneIcon color="primary" />
+                      <Box>
+                        <Typography variant="body2" color="text.secondary">Phone</Typography>
+                        <Typography variant="body1" fontWeight={500}>{profile.phone || 'Not specified'}</Typography>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  
+                  <Grid item xs={12}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                      <LinkedInIcon color="primary" />
+                      <Box sx={{ width: '100%' }}>
+                        <Typography variant="body2" color="text.secondary">LinkedIn</Typography>
+                        {profile.linkedin ? (
+                          <Typography 
+                            variant="body1" 
+                            component="a" 
+                            href={profile.linkedin} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            sx={{ 
+                              color: 'primary.main', 
+                              fontWeight: 500,
+                              textDecoration: 'none',
+                              '&:hover': { textDecoration: 'underline' },
+                              display: 'block',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis'
+                            }}
+                          >
+                            {profile.linkedin}
+                          </Typography>
+                        ) : (
+                          <Typography variant="body1" fontWeight={500}>Not specified</Typography>
+                        )}
+                      </Box>
+                    </Box>
+                  </Grid>
                 </Grid>
-              </Box>
-              <Box sx={{ background: 'rgba(245,250,255,0.85)', borderRadius: 4, boxShadow: 0, p: 2.5, mb: 3 }}>
-                <Typography variant="subtitle1" fontWeight={700} color="primary" gutterBottom>
-                  Share Interesting Information for Students
+              </Paper>
+              <Paper elevation={3} sx={{ borderRadius: 4, p: 3, mb: 4, background: 'rgba(255,255,255,0.95)' }}>
+                <Typography variant="h6" fontWeight={700} color="primary" gutterBottom>
+                  Share Your Experience
                 </Typography>
-                <form onSubmit={handlePostSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+                <Divider sx={{ mb: 3 }} />
+                
+                <form onSubmit={handlePostSubmit}>
                   <TextField
-                    label="What's interesting?"
+                    placeholder="Share your professional journey, tips, or advice for students..."
                     value={postContent}
                     onChange={e => setPostContent(e.target.value)}
                     fullWidth
-                    size="small"
+                    multiline
+                    rows={3}
                     variant="outlined"
                     disabled={posting}
-                    sx={{ mb: 1 }}
+                    sx={{ 
+                      mb: 2,
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: 2,
+                        backgroundColor: 'rgba(245,250,255,0.5)',
+                      }
+                    }}
                   />
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
-                    <Button variant="outlined" component="label" sx={{ borderRadius: 3, fontWeight: 600, boxShadow: 1, ':hover': { background: '#e3f0ff' } }}>
+                  
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                    <Button 
+                      variant="outlined" 
+                      component="label" 
+                      startIcon={<AttachFileIcon />}
+                      sx={{ 
+                        borderRadius: 2, 
+                        fontWeight: 600, 
+                        boxShadow: 1, 
+                        ':hover': { background: 'rgba(25, 118, 210, 0.08)' } 
+                      }}
+                    >
                       Attach File
                       <input type="file" accept="image/*,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt" hidden onChange={handleAttachmentChange} />
                     </Button>
+                    
                     {uploadingAttachment && <CircularProgress size={20} />}
+                    
                     {postAttachment && (
-                      <>
-                        <a href={postAttachment} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, fontWeight: 500, color: '#1976d2' }}>
+                      <Paper variant="outlined" sx={{ display: 'flex', alignItems: 'center', p: 1, borderRadius: 2, gap: 1, flex: 1 }}>
+                        {postAttachment.match(/\.(jpg|jpeg|png|gif)$/i) ? (
+                          <Box component="img" src={postAttachment} alt="Preview" sx={{ height: 40, width: 40, borderRadius: 1, objectFit: 'cover' }} />
+                        ) : (
+                          <AttachFileIcon color="primary" fontSize="small" />
+                        )}
+                        <Typography 
+                          variant="body2" 
+                          component="a" 
+                          href={postAttachment} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          sx={{ 
+                            color: 'primary.main', 
+                            fontWeight: 500,
+                            flex: 1,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap'
+                          }}
+                        >
                           {postAttachment.split('/').pop()}
-                        </a>
-                        <Button size="small" color="error" onClick={() => setPostAttachment(null)} sx={{ borderRadius: 3, fontWeight: 600 }}>Remove</Button>
-                      </>
+                        </Typography>
+                        <IconButton size="small" color="error" onClick={() => setPostAttachment(null)}>
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>
+                      </Paper>
                     )}
                   </Box>
-                  <Button type="submit" variant="contained" disabled={posting || !postContent.trim()} sx={{ borderRadius: 3, fontWeight: 700, boxShadow: 2, py: 1.2, ':hover': { background: '#1976d2' } }}>Post</Button>
+                  
+                  <Button 
+                    type="submit" 
+                    variant="contained" 
+                    disabled={posting || !postContent.trim()} 
+                    sx={{ 
+                      borderRadius: 2, 
+                      fontWeight: 700, 
+                      boxShadow: 2, 
+                      py: 1.2,
+                      px: 4,
+                      ':hover': { background: '#1565c0' } 
+                    }}
+                  >
+                    {posting ? 'Posting...' : 'Share Post'}
+                  </Button>
                 </form>
+                
                 {posts.length > 0 && (
-                  <Box>
-                    <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1, fontWeight: 700 }}>Your Posts</Typography>
+                  <Box sx={{ mt: 4 }}>
+                    <Typography variant="h6" fontWeight={700} color="primary" gutterBottom>
+                      Your Posts
+                    </Typography>
+                    <Divider sx={{ mb: 3 }} />
+                    
                     {posts.map(post => (
-                      <Card key={post._id} sx={{ mb: 2, p: 2, background: 'rgba(255,255,255,0.95)', borderRadius: 4, boxShadow: 3, display: 'flex', flexDirection: 'column', gap: 1, transition: 'box-shadow 0.2s', ':hover': { boxShadow: 8 } }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
-                          <Avatar src={profile?.photo} sx={{ width: 36, height: 36, boxShadow: 1 }} />
-                          <Box>
+                      <Paper 
+                        key={post._id} 
+                        elevation={2} 
+                        sx={{ 
+                          mb: 3, 
+                          p: 2.5, 
+                          borderRadius: 3, 
+                          transition: 'transform 0.2s, box-shadow 0.2s', 
+                          ':hover': { transform: 'translateY(-2px)', boxShadow: 4 } 
+                        }}
+                      >
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                          <Avatar 
+                            src={profile?.photo} 
+                            sx={{ 
+                              width: 48, 
+                              height: 48, 
+                              boxShadow: 2,
+                              border: '2px solid white'
+                            }} 
+                          >
+                            {!profile?.photo && <PersonIcon />}
+                          </Avatar>
+                          
+                          <Box sx={{ flex: 1 }}>
                             <Typography fontWeight={700}>{profile?.name}</Typography>
-                            <Typography variant="caption" color="text.secondary">{new Date(post.createdAt).toLocaleString()}</Typography>
+                            <Typography variant="caption" color="text.secondary">
+                              {new Date(post.createdAt).toLocaleString(undefined, { 
+                                year: 'numeric', 
+                                month: 'short', 
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                              })}
+                            </Typography>
                           </Box>
-                          <Box sx={{ flex: 1 }} />
-                          <Button size="small" onClick={() => handleEditPost(post)} sx={{ borderRadius: 2, fontWeight: 600, ':hover': { background: '#e3f0ff' } }}>Edit</Button>
-                          <Button size="small" color="error" onClick={() => handleDeletePost(post._id)} sx={{ borderRadius: 2, fontWeight: 600 }}>Delete</Button>
+                          
+                          <Box>
+                            <Tooltip title="Edit Post">
+                              <IconButton 
+                                size="small" 
+                                onClick={() => handleEditPost(post)}
+                                sx={{ mr: 1 }}
+                              >
+                                <EditIcon fontSize="small" />
+                              </IconButton>
+                            </Tooltip>
+                            
+                            <Tooltip title="Delete Post">
+                              <IconButton 
+                                size="small" 
+                                color="error" 
+                                onClick={() => handleDeletePost(post._id)}
+                              >
+                                <DeleteIcon fontSize="small" />
+                              </IconButton>
+                            </Tooltip>
+                          </Box>
                         </Box>
-                        <Typography variant="body1" sx={{ mb: 1 }}>{post.content}</Typography>
+                        
+                        <Typography variant="body1" sx={{ mb: 2, whiteSpace: 'pre-line' }}>
+                          {post.content}
+                        </Typography>
+                        
                         {post.attachment && (
-                          post.attachment.match(/\.(jpg|jpeg|png|gif)$/i)
-                            ? <img src={post.attachment} alt="attachment" style={{ maxWidth: '100%', borderRadius: 8, marginBottom: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.07)' }} />
-                            : <a href={post.attachment} target="_blank" rel="noopener noreferrer" style={{ color: '#1976d2', fontWeight: 500 }}>{post.attachment.split('/').pop()}</a>
+                          <Box sx={{ mt: 1 }}>
+                            {post.attachment.match(/\.(jpg|jpeg|png|gif)$/i) ? (
+                              <Box 
+                                component="img" 
+                                src={post.attachment} 
+                                alt="attachment" 
+                                sx={{ 
+                                  maxWidth: '100%', 
+                                  borderRadius: 2, 
+                                  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                                  maxHeight: 400,
+                                  objectFit: 'contain'
+                                }} 
+                              />
+                            ) : (
+                              <Button
+                                variant="outlined"
+                                startIcon={<AttachFileIcon />}
+                                component="a"
+                                href={post.attachment}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                sx={{ borderRadius: 2 }}
+                              >
+                                {post.attachment.split('/').pop()}
+                              </Button>
+                            )}
+                          </Box>
                         )}
-                      </Card>
+                      </Paper>
                     ))}
                   </Box>
                 )}
-              </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                <Button variant="contained" color="primary" size="large" sx={{ px: 5, fontWeight: 700, borderRadius: 3, boxShadow: 2, py: 1.2, ':hover': { background: '#1976d2' } }} onClick={handleOpen}>ADD / EDIT DETAILS</Button>
-              </Box>
+              </Paper>
+              {/* Removed the ADD / EDIT DETAILS button since we now have an edit button in the profile details section */}
             </>
           ) : (
             <Typography align="center">No profile data found.</Typography>
@@ -431,7 +662,6 @@ function Dashboard() {
           <DialogContent>
             <TextField label="Batch" name="batch" value={form.batch} onChange={handleChange} fullWidth margin="dense" />
             <TextField label="Company" name="company" value={form.company} onChange={handleChange} fullWidth margin="dense" />
-            <TextField label="Salary" name="salary" value={form.salary} onChange={handleChange} fullWidth margin="dense" />
             <TextField label="Designation" name="designation" value={form.designation} onChange={handleChange} fullWidth margin="dense" />
             <TextField label="Location" name="location" value={form.location} onChange={handleChange} fullWidth margin="dense" />
             <TextField label="Phone" name="phone" value={form.phone} onChange={handleChange} fullWidth margin="dense" />
@@ -490,8 +720,8 @@ function Dashboard() {
           {success}
         </Alert>
       </Snackbar>
-    </Box>
+    </SideNav>
   );
 }
 
-export default Dashboard; 
+export default Dashboard;

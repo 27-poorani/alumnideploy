@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Card, CardContent, Typography, TextField, Button, Box } from '@mui/material';
+import { Card, CardContent, Typography, TextField, Button, Box, MenuItem } from '@mui/material';
 import { API_ENDPOINTS } from '../config/api';
 
 function Register() {
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [form, setForm] = useState({ name: '', email: '', password: '', department: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -43,6 +43,25 @@ function Register() {
             <TextField label="Name" name="name" value={form.name} onChange={handleChange} required fullWidth margin="normal" />
             <TextField label="Email" name="email" type="email" value={form.email} onChange={handleChange} required fullWidth margin="normal" />
             <TextField label="Password" name="password" type="password" value={form.password} onChange={handleChange} required fullWidth margin="normal" />
+            <TextField
+              select
+              label="Department"
+              name="department"
+              value={form.department}
+              onChange={handleChange}
+              required
+              fullWidth
+              margin="normal"
+            >
+              {/* Replace option elements with MenuItem components */}
+              <MenuItem value="">Select Department</MenuItem>
+              <MenuItem value="CSE">Computer Science & Engineering</MenuItem>
+              <MenuItem value="ECE">Electronics & Communication Engineering</MenuItem>
+              <MenuItem value="EEE">Electrical & Electronics Engineering</MenuItem>
+              <MenuItem value="MECH">Mechanical Engineering</MenuItem>
+              <MenuItem value="CIVIL">Civil Engineering</MenuItem>
+              {/* Add more departments as needed */}
+            </TextField>
             {error && <Typography color="error" sx={{ mt: 1 }}>{error}</Typography>}
             <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
               Register
@@ -67,4 +86,4 @@ function Register() {
   );
 }
 
-export default Register; 
+export default Register;

@@ -37,8 +37,8 @@ router.get('/', async (req, res) => {
 // ADD a top student (admin only)
 router.post('/', auth, adminOnly, async (req, res) => {
   try {
-    const { name, company, package: pkg, batch, photo } = req.body;
-    const student = new TopStudent({ name, company, package: pkg, batch, photo });
+    const { name, company, package: pkg, batch, department, photo } = req.body;
+    const student = new TopStudent({ name, company, package: pkg, batch, department, photo });
     await student.save();
     res.json(student);
   } catch (err) {
@@ -59,10 +59,10 @@ router.post('/upload-photo', auth, adminOnly, upload.single('photo'), (req, res)
 // UPDATE a top student (admin only)
 router.put('/:id', auth, adminOnly, async (req, res) => {
   try {
-    const { name, company, package: pkg, batch, photo } = req.body;
+    const { name, company, package: pkg, batch, department, photo } = req.body;
     const student = await TopStudent.findByIdAndUpdate(
       req.params.id,
-      { name, company, package: pkg, batch, photo },
+      { name, company, package: pkg, batch, department, photo },
       { new: true }
     );
     res.json(student);
@@ -76,6 +76,22 @@ router.delete('/:id', auth, adminOnly, async (req, res) => {
   try {
     await TopStudent.findByIdAndDelete(req.params.id);
     res.json({ msg: 'Deleted' });
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error' });
+  }
+});
+
+// GET top 5 students by department and batch (public)
+router.get('/by-department-batch', async (req, res) => {
+  try {
+    const { department, batch } = req.query;
+    if (!department || !batch) {
+      return res.status(400).json({ msg: 'Department and batch are required' });
+    }
+    const students = await TopStudent.find({ department, batch })
+      .sort({ _id: -1 })
+      .limit(5);
+    res.json(students);
   } catch (err) {
     res.status(500).json({ msg: 'Server error' });
   }

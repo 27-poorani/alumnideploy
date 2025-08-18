@@ -88,7 +88,40 @@ function Navigation() {
           </Button>
         )}
 
+         {/* Show Dashboard and Profile for authenticated alumni */}
+        {token && role === 'alumni' && (
+          <>
+            <Button color="primary" component={Link} to="/mentorship" sx={{ mx: 1 }}>
+              Guidance program
+            </Button>
+            <Button color="primary" component={Link} to="/donation" sx={{ mx: 1 }}>
+              Donate
+            </Button>
+          </>
+        )}
+
+        {/* Show feature pages for authenticated users */}
+        {token && (
+          <>
+            
+            <Button color="primary" component={Link} to="/networking-events" sx={{ mx: 1 }}>
+              Events
+            </Button>
+          </>
+        )}
+
         {/* Show Logout for authenticated users */}
+        
+        {token && role === 'admin' && (
+          <>
+            <Button color="primary" component={Link} to="/admin-mentor-messages" sx={{ mx: 1 }}>
+              Guidance Messages
+            </Button>
+            <Button color="primary" component={Link} to="/admin-donations" sx={{ mx: 1 }}>
+              Donations
+            </Button>
+          </>
+        )}
         {token && (
           <Button color="error" onClick={handleLogout} sx={{ mx: 1 }}>
             Logout
@@ -99,4 +132,4 @@ function Navigation() {
   );
 }
 
-export default Navigation; 
+export default Navigation;
