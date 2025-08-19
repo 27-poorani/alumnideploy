@@ -63,7 +63,7 @@ function AdminMentorMessages() {
     setError('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${API_ENDPOINTS.MENTORSHIPS}/admin/pending`, {
+      const res = await fetch(API_ENDPOINTS.MENTORSHIPS_ADMIN_PENDING, {
         headers: { 'x-auth-token': token },
       });
       const data = await res.json();
@@ -82,7 +82,7 @@ function AdminMentorMessages() {
       const token = localStorage.getItem('token');
       console.log('Fetching mentorships with selected dates');
       
-      const res = await fetch(`${API_ENDPOINTS.MENTORSHIPS}/admin/with-selected-dates`, {
+      const res = await fetch(API_ENDPOINTS.MENTORSHIPS_ADMIN_WITH_SELECTED_DATES, {
         headers: { 'x-auth-token': token },
         cache: 'no-store'
       });

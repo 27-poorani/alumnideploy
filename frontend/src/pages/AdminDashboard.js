@@ -289,7 +289,7 @@ function AdminDashboard() {
     setErrorMentorships('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${API_ENDPOINTS.ADMIN_MENTORSHIPS_PENDING}`, {
+      const res = await fetch(API_ENDPOINTS.ADMIN_MENTORSHIPS_PENDING, {
         headers: { 'x-auth-token': token },
       });
       const data = await res.json();

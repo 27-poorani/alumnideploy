@@ -41,6 +41,7 @@ export const API_ENDPOINTS = {
   MENTORSHIPS_USER_MENTOR: `${API_BASE_URL}/api/mentorship/user/mentor`,
   MENTORSHIPS_USER_MENTEE: `${API_BASE_URL}/api/mentorship/user/mentee`,
   MENTORSHIPS_ADMIN_PENDING: `${API_BASE_URL}/api/mentorship/admin/pending`,
+  MENTORSHIPS_ADMIN_WITH_SELECTED_DATES: `${API_BASE_URL}/api/mentorship/admin/with-selected-dates`,
   
   // Networking Events endpoints
   NETWORKING_EVENTS: `${API_BASE_URL}/api/networking-events`,
