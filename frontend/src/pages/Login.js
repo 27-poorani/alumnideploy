@@ -26,7 +26,7 @@ function Login() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.msg || 'Login failed');
       localStorage.setItem('token', data.token);
-      localStorage.setItem('role', data.user.role);
+      localStorage.setItem('role', data.user.role.toLowerCase());
       window.dispatchEvent(new Event('authChange'));
       if (data.user.role === 'admin') {
         navigate('/admin');

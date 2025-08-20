@@ -28,6 +28,7 @@ export const API_ENDPOINTS = {
   ADMIN_MENTORSHIPS_PENDING: `${API_BASE_URL}/api/mentorship/admin/pending`,
   ADMIN_MENTORSHIPS_APPROVE: `${API_BASE_URL}/api/mentorship`,
   ADMIN_NETWORKING_EVENTS: `${API_BASE_URL}/api/admin/networking-events`,
+  
   ADMIN_NETWORKING_EVENTS_PUBLISH: `${API_BASE_URL}/api/admin/networking-events`,
   ADMIN_NETWORKING_EVENTS_ALL: `${API_BASE_URL}/api/networking-events/admin/all`,
   
