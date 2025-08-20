@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 // CORS configuration for production
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://alumni-frontend-y63v.onrender.com', 'https://alumni-frontend-wg4d.onrender.com', 'https://alumni-portal-frontend.vercel.app', 'http://localhost:3000'] // Updated frontend URLs
+    ? ['https://alumni-frontend-y63v.onrender.com', 'https://alumni-frontend-wg4d.onrender.com', 'https://alumni-portal-frontend.vercel.app'] // Updated frontend URLs
     : ['http://localhost:3000'],
   credentials: true,
   optionsSuccessStatus: 200
@@ -26,7 +26,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/uploads', express.static('uploads'));
 
 // MongoDB connection with your provided connection string
-const MONGO_URI = process.env.MONGO_URI;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://sriannapoorani05:sap@cluster0.4oaleij.mongodb.net/alumni?retryWrites=true&w=majority&appName=Cluster0';
 
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
