@@ -34,6 +34,7 @@ export const API_ENDPOINTS = {
   
   // Public endpoints
   TOP_STUDENTS: `${API_BASE_URL}/api/top-students`,
+  TOP_STUDENTS_BY_DEPARTMENT_BATCH: `${API_BASE_URL}/api/top-students/by-department-batch`,
   PLACEMENT_HIGHLIGHTS: `${API_BASE_URL}/api/placement-highlights`,
   
   // Mentorship endpoints
