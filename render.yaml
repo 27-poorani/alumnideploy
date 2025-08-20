@@ -12,7 +12,7 @@ services:
       - key: MONGO_URI
         value: mongodb+srv://sriannapoorani05:sap@cluster0.4oaleij.mongodb.net/alumni?retryWrites=true&w=majority&appName=Cluster0
       - key: JWT_SECRET
-        generateValue: true
+        value: supersecretkey
       - key: PORT
         value: 10000
 
