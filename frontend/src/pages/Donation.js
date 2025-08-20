@@ -56,7 +56,7 @@ function Donation() {
   const fetchTotalDonated = async () => {
     try {
       setLoadingStats(true);
-      const response = await fetch(`${API_ENDPOINTS.DONATIONS}/stats/total`);
+      const response = await fetch(API_ENDPOINTS.DONATIONS_STATS);
       
       if (response.ok) {
         const data = await response.json();

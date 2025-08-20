@@ -91,6 +91,8 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
+
+
 // @route   GET api/donations/me
 // @desc    Get current user's donations
 // @access  Private
@@ -103,6 +105,60 @@ router.get('/me', auth, async (req, res) => {
     res.status(500).json({ msg: 'Server Error' });
   }
 });
+
+// @route   GET api/donations/stats
+// @desc    Get donation statistics
+// @access  Private/Admin
+router.get('/stats', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    // Check if user is admin
+    if (user.role !== 'admin') {
+      return res.status(403).json({ msg: 'Not authorized to view donation statistics' });
+    }
+
+    // Get total donations
+    const totalDonations = await Donation.countDocuments();
+    
+    // Get donations by status
+    const pendingDonations = await Donation.countDocuments({ status: 'pending' });
+    const completedDonations = await Donation.countDocuments({ status: 'completed' });
+    const rejectedDonations = await Donation.countDocuments({ status: 'rejected' });
+    
+    // Get total amount
+    const totalAmountResult = await Donation.aggregate([
+      { $group: { _id: null, totalAmount: { $sum: '$amount' } } }
+    ]);
+    
+    const totalAmount = totalAmountResult.length > 0 ? totalAmountResult[0].totalAmount : 0;
+    
+    // Get completed amount
+    const completedAmountResult = await Donation.aggregate([
+      { $match: { status: 'completed' } },
+      { $group: { _id: null, totalAmount: { $sum: '$amount' } } }
+    ]);
+    
+    const completedAmount = completedAmountResult.length > 0 ? completedAmountResult[0].totalAmount : 0;
+    
+    res.json({
+      totalDonations,
+      pendingDonations,
+      completedDonations,
+      rejectedDonations,
+      totalAmount,
+      completedAmount
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ msg: 'Server Error' });
+  }
+});
+
 
 // @route   GET api/donations/:id
 // @desc    Get donation by ID
@@ -190,6 +246,59 @@ router.get('/stats/total', async (req, res) => {
     const totalAmount = result.length > 0 ? result[0].totalAmount : 0;
     
     res.json({ totalAmount });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ msg: 'Server Error' });
+  }
+});
+
+// @route   GET api/donations/stats
+// @desc    Get donation statistics
+// @access  Private/Admin
+router.get('/stats', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    // Check if user is admin
+    if (user.role !== 'admin') {
+      return res.status(403).json({ msg: 'Not authorized to view donation statistics' });
+    }
+
+    // Get total donations
+    const totalDonations = await Donation.countDocuments();
+    
+    // Get donations by status
+    const pendingDonations = await Donation.countDocuments({ status: 'pending' });
+    const completedDonations = await Donation.countDocuments({ status: 'completed' });
+    const rejectedDonations = await Donation.countDocuments({ status: 'rejected' });
+    
+    // Get total amount
+    const totalAmountResult = await Donation.aggregate([
+      { $group: { _id: null, totalAmount: { $sum: '$amount' } } }
+    ]);
+    
+    const totalAmount = totalAmountResult.length > 0 ? totalAmountResult[0].totalAmount : 0;
+    
+    // Get completed amount
+    const completedAmountResult = await Donation.aggregate([
+      { $match: { status: 'completed' } },
+      { $group: { _id: null, totalAmount: { $sum: '$amount' } } }
+    ]);
+    
+    const completedAmount = completedAmountResult.length > 0 ? completedAmountResult[0].totalAmount : 0;
+    
+    res.json({
+      totalDonations,
+      pendingDonations,
+      completedDonations,
+      rejectedDonations,
+      totalAmount,
+      completedAmount
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ msg: 'Server Error' });

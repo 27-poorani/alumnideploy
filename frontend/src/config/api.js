@@ -51,6 +51,11 @@ export const API_ENDPOINTS = {
   NETWORKING_EVENTS_NOTIFICATIONS: `${API_BASE_URL}/api/networking-events/notifications`,
   NETWORKING_EVENTS_UPLOAD_IMAGE: `${API_BASE_URL}/api/networking-events/upload-image`,
   
+  // Donations endpoints
+  DONATIONS: `${API_BASE_URL}/api/donations`,
+  DONATIONS_ME: `${API_BASE_URL}/api/donations/me`,
+  DONATIONS_STATS: `${API_BASE_URL}/api/donations/stats/total`,
+  
   // Uploads
   UPLOADS: `${API_BASE_URL}/uploads`
 };
