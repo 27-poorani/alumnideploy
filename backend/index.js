@@ -73,10 +73,12 @@ app.get('/health', (req, res) => {
 
 // Global error handler middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error('Error:', err.message);
+  console.error('Stack:', err.stack);
   res.status(500).json({
     msg: 'Server Error',
-    error: process.env.NODE_ENV === 'production' ? {} : err.message
+    error: err.message,
+    stack: process.env.NODE_ENV === 'production' ? null : err.stack
   });
 });
 
@@ -88,4 +90,6 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`JWT_SECRET defined: ${process.env.JWT_SECRET ? 'Yes' : 'No'}`);
+  console.log(`MONGO_URI defined: ${process.env.MONGO_URI ? 'Yes' : 'No'}`);
 });
