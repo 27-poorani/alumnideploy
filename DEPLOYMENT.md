@@ -5,6 +5,17 @@
 - Render account
 - GitHub repository with your code
 
+## Recent Configuration Updates
+
+The following changes have been made to fix deployment issues:
+
+1. Updated MongoDB connection string in `backend/.env`
+2. Added `NODE_ENV=production` to `backend/.env`
+3. Updated CORS configuration in `backend/index.js` to allow connections from all frontend URLs
+4. Fixed MongoDB connection handling in `backend/index.js`
+5. Verified frontend `.env` has the correct API URL
+6. Updated `render.yaml` with the correct configuration
+
 ## Environment Variables
 
 ### Backend Environment Variables (Set in Render Dashboard)
@@ -49,6 +60,34 @@
 5. Add Environment Variable:
    - `REACT_APP_API_URL`: Your backend URL from step 1
 
+## Troubleshooting
+
+### Common Issues and Solutions
+
+1. **MongoDB Connection Issues**
+   - Ensure your MongoDB Atlas connection string is correct in both `backend/.env` and `render.yaml`
+   - Check that your MongoDB Atlas IP whitelist allows connections from anywhere (0.0.0.0/0)
+   - Verify that your MongoDB Atlas user has the correct permissions
+
+2. **CORS Issues**
+   - The CORS configuration has been updated to allow connections from all frontend URLs
+   - If you're still experiencing CORS issues, check the browser console for specific error messages
+
+3. **Frontend Not Connecting to Backend**
+   - Verify that your frontend's `.env` file has the correct `REACT_APP_API_URL` pointing to your backend deployment URL
+   - Check that your backend is properly deployed and running
+
+4. **Deployment Failing**
+   - Check the build logs in Render.com for any errors
+   - Ensure all dependencies are correctly specified in your package.json files
+   - Verify that your Node.js version is compatible with Render.com (use the engines field in package.json)
+
+### Redeployment Steps
+
+1. After making changes to your code, push them to your GitHub repository
+2. Render will automatically detect the changes and redeploy your services
+3. Monitor the deployment logs for any errors
+
 6. Deploy
 
 ### 3. Update CORS in Backend
@@ -85,4 +124,4 @@ After updating CORS, redeploy your backend service.
 - Check Render logs for any build or runtime errors
 - Verify environment variables are set correctly
 - Ensure MongoDB connection string is valid
-- Check CORS configuration if frontend can't connect to backend 
+- Check CORS configuration if frontend can't connect to backend
