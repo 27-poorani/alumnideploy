@@ -31,7 +31,7 @@ const drawerItems = [
   { text: 'Alumni Posts', icon: <ForumIcon />, section: 'posts', path: '/admin' },
   { text: 'Guidance Messages', icon: <MessageIcon />, section: 'messages', path: '/admin-mentor-messages' },
   { text: 'Donations', icon: <DonationIcon />, section: 'donations', path: '/admin-donations' },
-  { text: 'Events', icon: <EventIcon />, section: 'events', path: '/admin' }
+  { text: 'Events', icon: <EventIcon />, section: 'events', path: '/networking-events' }
 ];
 
 function AdminMentorMessages() {
