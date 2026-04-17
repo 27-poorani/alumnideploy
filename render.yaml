@@ -28,5 +28,5 @@ services:
     staticPublishPath: frontend/build
     envVars:
       - key: REACT_APP_API_URL
-        value: https://alumni-backend-gufm.onrender.com
+        value: https://alumni-backend-hmg9.onrender.com
         

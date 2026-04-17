@@ -1,7 +1,7 @@
 // Simple API Test Script
 // Run this in your browser console or as a Node.js script to test your API endpoints
 
-const API_BASE_URL = 'https://alumni-backend-gufm.onrender.com'; // Updated with actual backend URL
+const API_BASE_URL = 'https://alumni-backend-hmg9.onrender.com'; // Updated with actual backend URL
 
 const testEndpoints = async () => {
   console.log('Testing API endpoints...');
