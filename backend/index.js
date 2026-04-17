@@ -10,23 +10,43 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS configuration for production
-const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? [ 'hhttps://alumni-frontend-suwe.onrender.com', 'https://alumni-portal-frontend.vercel.app'] // Updated frontend URLs
-    : ['http://localhost:3000'],
-  credentials: true,
-  optionsSuccessStatus: 200
-};
+/* ===================== CORS CONFIG (FIXED) ===================== */
+app.use(cors({
+  origin: (origin, callback) => {
+    console.log("Incoming origin:", origin);
 
-// Middleware
-app.use(cors(corsOptions));
+    // Allow requests with no origin (Postman, mobile apps)
+    if (!origin) return callback(null, true);
+
+    // ✅ Allow ALL localhost (any port)
+    if (
+      origin.startsWith('http://localhost') ||
+      origin.startsWith('http://127.0.0.1')
+    ) {
+      return callback(null, true);
+    }
+
+    // ✅ Allow deployed frontends
+    if (
+      origin === 'https://alumni-frontend-suwe.onrender.com' ||
+      origin === 'https://alumni-portal-frontend.vercel.app'
+    ) {
+      return callback(null, true);
+    }
+
+    console.log("Blocked by CORS:", origin);
+    return callback(new Error(`CORS not allowed: ${origin}`));
+  },
+  credentials: true
+}));
+
+/* ===================== MIDDLEWARE ===================== */
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/uploads', express.static('uploads'));
 
-// MongoDB connection with your provided connection string
-const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://sriannapoorani05:sap@cluster0.4oaleij.mongodb.net/alumni?retryWrites=true&w=majority&appName=Cluster0';
+/* ===================== DATABASE ===================== */
+const MONGO_URI = process.env.MONGO_URI;
 
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
@@ -35,61 +55,60 @@ mongoose.connect(MONGO_URI, {
   .then(() => console.log('MongoDB connected successfully'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
-// Import routes
+/* ===================== ROUTES ===================== */
 const authRoutes = require('./routes/auth');
 const alumniRoutes = require('./routes/alumni');
 const adminRoutes = require('./routes/admin');
 const topStudentsRoutes = require('./routes/topStudents');
 const placementHighlightsRoutes = require('./routes/placementHighlights');
 
-// Import feature routes
 const mentorshipRoutes = require('./routes/mentorship');
 const networkingEventsRoutes = require('./routes/networkingEvents');
 const donationsRoutes = require('./routes/donations');
 
-// Apply routes
 app.use('/api/auth', authRoutes);
 app.use('/api/alumni', alumniRoutes);
 app.use('/api/admin', adminRoutes);
+
 app.use('/api/top-students', topStudentsRoutes);
 app.use('/api/admin/top-students', topStudentsRoutes);
+
 app.use('/api/placement-highlights', placementHighlightsRoutes);
 app.use('/api/admin/placement-highlights', placementHighlightsRoutes);
 
-// Apply feature routes
 app.use('/api/mentorship', mentorshipRoutes);
 app.use('/api/networking-events', networkingEventsRoutes);
 app.use('/api/donations', donationsRoutes);
 
-// Root route
+/* ===================== ROOT ===================== */
 app.get('/', (req, res) => {
   res.json({ message: 'Alumni Backend API is running' });
 });
 
-// Health check endpoint for Render
+/* ===================== HEALTH ===================== */
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// Global error handler middleware
+/* ===================== ERROR HANDLER (CORS SAFE) ===================== */
 app.use((err, req, res, next) => {
   console.error('Error:', err.message);
-  console.error('Stack:', err.stack);
+
+  // ✅ Ensure CORS headers even on error
+  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+
   res.status(500).json({
-    msg: 'Server Error',
-    error: err.message,
-    stack: process.env.NODE_ENV === 'production' ? null : err.stack
+    msg: err.message
   });
 });
 
-// Handle 404 errors with JSON response
+/* ===================== 404 ===================== */
 app.use((req, res) => {
   res.status(404).json({ msg: 'Route not found' });
 });
 
+/* ===================== SERVER ===================== */
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`JWT_SECRET defined: ${process.env.JWT_SECRET ? 'Yes' : 'No'}`);
-  console.log(`MONGO_URI defined: ${process.env.MONGO_URI ? 'Yes' : 'No'}`);
 });
